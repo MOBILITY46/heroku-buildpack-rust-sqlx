@@ -1,4 +1,4 @@
-# Heroku buildpack for Rust
+# Heroku buildpack for Rust (SQLx)
 
 [![Build Status](https://travis-ci.org/emk/heroku-buildpack-rust.svg?branch=master)](https://travis-ci.org/emk/heroku-buildpack-rust)
 
@@ -58,21 +58,25 @@ To deploy your application, run:
 git push heroku master
 ```
 
-### Running Diesel migrations during the release phase
+### SQLx
 
-This will install the diesel CLI at build time and make it available in your dyno. Migrations will run whenever a new version of your app is released. Add the following line to your `RustConfig`
+This will install the SQLx CLI at build time and make it available in your dyno. Migrations will run whenever a new version of your app is released. Add the following line to your `RustConfig`
 
 ```sh
-RUST_INSTALL_DIESEL=1
+RUST_INSTALL_SQLX=1
 ```
 
 and this one to your `Procfile`
 
 ```Procfile
-release: ./target/release/diesel migration run
+release: ./target/release/sqlx mig run
 ```
 
-[Heroku CLI]: https://devcenter.heroku.com/articles/heroku-command-line
+To customize the installation options, set the `SQLX_FLAGS` in the `RustConfig`:
+
+```sh
+SQLX_FLAGS="--no-default-features --features postgres"
+```
 
 ## Specifying which version of Rust to use
 
